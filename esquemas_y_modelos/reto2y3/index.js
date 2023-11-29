@@ -1,17 +1,14 @@
 const mongoose = require("mongoose")
-// const User = require("./userMDB")
-// const Profile = require("./profileMDB")
-// const Credentials = require("./credentialsMDB")
-const models = require("./modelos")
+const esquemas = require("./esquemas")
 
 mongoose.connect("mongodb+srv://maikelfranklin:MONGOmakelele-7@cluster0.vws5ljp.mongodb.net/", {useNewUrlParser: false, useUnifiedTopology: false})
 
-let userDocument = new models.userModel({
+let userDocument = new esquemas.userModel({
     login: "PepePerez",
     password: "pepepassword"
 })
 
-const profileDocument = new models.profileModel({
+const profileDocument = new esquemas.profileModel({
     name: "Julian",
     surname: "Perez",
     dateOfBirth: "07/09/1984",
@@ -19,7 +16,7 @@ const profileDocument = new models.profileModel({
     rol: "Admin"
 })
 
-let credentialsDocument = new models.credentialsModel({
+let credentialsDocument = new esquemas.credentialsModel({
     address: "C/ Ferrol, 17",
     phone: 3230721,
     email: "email@gmail.es"
