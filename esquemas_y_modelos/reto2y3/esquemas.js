@@ -55,8 +55,8 @@ userSchema.pre("save", function(next){
     }else console.log("Tienes que introducir mas de 10 caracteres")
 })
 
-let userModel = mongoose.model("User", userSchema, "user")
-let profileModel = mongoose.model("Profile", profileSchema, "profile")
-let credentialsModel = mongoose.model("Credentials", credentialsSchema, "credentials")
+let userEsquema = mongoose.model("User", userSchema, "user")
+let profileEsquema = mongoose.model("Profile", profileSchema, "profile")
+let credentialsEsquema = mongoose.model("Credentials", credentialsSchema, "credentials")
 
-module.exports = {userModel, profileModel, credentialsModel}
+module.exports = {userEsquema, profileEsquema, credentialsEsquema}

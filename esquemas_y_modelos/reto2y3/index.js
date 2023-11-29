@@ -3,12 +3,12 @@ const esquemas = require("./esquemas")
 
 mongoose.connect("mongodb+srv://maikelfranklin:MONGOmakelele-7@cluster0.vws5ljp.mongodb.net/", {useNewUrlParser: false, useUnifiedTopology: false})
 
-let userDocument = new esquemas.userModel({
-    login: "PepePerez",
+let userDocument = new esquemas.userEsquema({
+    login: "PepePerezzz",
     password: "pepepassword"
 })
 
-const profileDocument = new esquemas.profileModel({
+const profileDocument = new esquemas.profileEsquema({
     name: "Julian",
     surname: "Perez",
     dateOfBirth: "07/09/1984",
@@ -16,7 +16,7 @@ const profileDocument = new esquemas.profileModel({
     rol: "Admin"
 })
 
-let credentialsDocument = new esquemas.credentialsModel({
+let credentialsDocument = new esquemas.credentialsEsquema({
     address: "C/ Ferrol, 17",
     phone: 3230721,
     email: "email@gmail.es"
