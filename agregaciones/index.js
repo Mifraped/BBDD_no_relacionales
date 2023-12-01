@@ -2,7 +2,7 @@ const mongoose = require("mongoose")
 
 mongoose.connect("mongodb+srv://maikelfranklin:MONGOmakelele-7@cluster0.vws5ljp.mongodb.net/codenotch")
 
-//***********************************************ESCENARIO************************************************************************/
+//*********************************************** ESCENARIO ************************************************************************/
 
 const teachersSchema = new mongoose.Schema({
     teacher_first_name: String,
@@ -133,14 +133,32 @@ let mark10 = new marksModel({
     subject_name: "HTML",
     teachers: [teacher1, teacher5]
 })
+let mark11 = new marksModel({
+    date: new Date(2023, 11, 30),
+    mark: 8,
+    student_first_name: "Ricardo",
+    student_last_name: "Rubio",
+    group_name: "Full-stack presencial",
+    subject_name: "Mongo",
+    teachers: [teacher1, teacher2]
+})
+let mark12 = new marksModel({
+    date: new Date(2023, 11, 30),
+    mark: 9,
+    student_first_name: "Ricardo",
+    student_last_name: "Rubio",
+    group_name: "Full-stack presencial",
+    subject_name: "Mongo",
+    teachers: [teacher1, teacher2]
+})
 
-// marksModel.insertMany([mark1, mark2, mark3, mark4, mark5, mark6, mark7, mark8, mark9, mark10])
+// marksModel.insertMany([mark11, mark12])
 // .then(() => {
 //     console.log("Datos insertados")
 //     mongoose.disconnect()
 // }).catch(error => console.log(error))
 
-//***************************************************RETO1*********************************************************************/
+//*************************************************** RETO1 *********************************************************************/
 
 //NOTA MEDIA ALUMNOS
 
@@ -222,6 +240,81 @@ let mark10 = new marksModel({
 //     {
 //         $group: {"_id": {"Asignatura": "$Asignatura"}, "Numero profesores": {$sum: 1}}
 //     }
+// ]).then(res => {
+//     console.log(res)
+//     mongoose.disconnect()
+// }).catch(err => console.log(err))
+
+//************************************************* RETO 2 ***************************************************/
+
+// 1 -------------------------
+
+// marksModel.aggregate([{
+//     $match: {"$or": [{mark: {"$gt": 8}}, {date: {"$lt": new Date("2020-12-31")}}]}
+// },
+// {
+//     $project: {"_id": 0, "Alumno": {"$concat": ["$student_first_name", " ", "$student_last_name"]}, "Nota": "$mark", "Fecha": "$date"}
+// }
+// ]).then(res => {
+//     console.log(res)
+//     mongoose.disconnect()
+// }).catch(err => console.log(err))
+
+// 2 --------------------------------
+
+// marksModel.aggregate([{
+//     $match: {date: {"$gt": new Date("2022, 12, 31")}}
+// },
+// {
+//     $project: {"_id": 0, "Asignatura": "$subject_name", "mark": 1}
+// },
+// {
+//     $group: {"_id": {"Asignatura": "$Asignatura"}, "Nota media": {"$avg": "$mark"}}
+// },
+// {
+//     $project: {"_id": 0, "Asignatura": "$_id.Asignatura", "Nota media": 1}
+// }
+// ]).then(res => {
+//     console.log(res)
+//     mongoose.disconnect()
+// }).catch(err => console.log(err))
+
+// 3 -------------------------------------------
+
+// marksModel.aggregate([{
+//     $match: {date: {"$gt": new Date("2022, 12, 31")}}
+// },
+// {
+//     $project: {"_id": 0, "Alumno": {"$concat":["$student_first_name", " ", "$student_last_name"]}, "mark": 1}
+// },
+// {
+//     $group: {"_id": {"Alumno": "$Alumno"}, "Nota media": {"$avg": "$mark"}}
+// },
+// {
+//     $project: {"_id": 0, "Alumno": "$_id.Alumno", "Nota media": 1}
+// }
+// ]).then(res => {
+//     console.log(res)
+//     mongoose.disconnect()
+// }).catch(err => console.log(err))
+
+// 4 ---------------------------------------------------
+
+// marksModel.aggregate([{
+//     $unwind: "$teachers"
+// },
+// {
+//     $match: {"$and": [{"teachers.teacher_first_name": "Maria Jose"}, {"teachers.teacher_last_name": "Requena"}]}
+// },
+// {
+//     $project: {"_id": 0, "Alumno": {"$concat": ["$student_first_name", " ", "$student_last_name"]}, "Asignaturas": "$subject_name", "Profesor": {"$concat": ["$teachers.teacher_first_name", " ", "$teachers.teacher_last_name"]}}
+// },
+// {
+//     $group: {"_id": {"Alumno": "$Alumno", "Profesor": "$Profesor"}, "Asignaturas": {"$sum": 1}}
+// },
+// {
+//     $project: {"_id": 0, "Alumno": "$_id.Alumno", "Asignaturas": 1, "Profesor": "$_id.Profesor"}
+// }
 // ]).then(res => {
 //     console.log(res)
 //     mongoose.disconnect()
