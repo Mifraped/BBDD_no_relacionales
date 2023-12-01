@@ -1,5 +1,6 @@
 const mongoose = require("mongoose")
 const photosModel = require("./photosMDB")
+const funciones = require("./funciones")
 
 mongoose.connect("mongodb+srv://maikelfranklin:MONGOmakelele-7@cluster0.vws5ljp.mongodb.net/", {useNewUrlParser: false, useUnifiedTopology: false})
 
@@ -79,35 +80,22 @@ let photosDocument4 = new photosModel({
 //     console.log(error);
 // })
 
+//****************************************************Subida de fotos***********************/
+
+// funciones.postPhoto("Mercedes","https://img.freepik.com/foto-gratis/paisaje-niebla-matutina-montanas-globos-aerostaticos-al-amanecer_335224-794.jpg?size=626&ext=jpg&ga=GA1.1.1826414947.1699660800&semt=ais","Glovo", "Globos sobrevolando montañas")
+
 //****************************************************Obtener fotos************************/
 
-// photosModel.find({nombre_usuario: "Antonio"})
-// .then(items => {
-//     console.log(items)
-//     mongoose.disconnect()
-// }).catch(err => console.log(err))
+// funciones.getAllPhotos("Antonio")
 
 //******************************************************Modificar fotos**************************/
 
-// photosModel.updateOne({titulo: "Ola ke ase"}, {descripccion: "Sol surfeando"})
-// .then(data => {
-//     console.log("Modificado correctamente")
-//     console.log(data)
-// }).catch(error => console.log(error))
+// funciones.putPhoto("Ola ke ase", "Ola rompiendo")
 
 //******************************************************Eliminar foto****************************/
 
-// photosModel.deleteOne({nombre_usuario: "Mercedes", titulo: "Glovo"})
-// .then(data => {
-//     console.log("Eliminado correctamente");
-//     console.log(data)
-//     mongoose.disconnect()
-// }).catch(error => console.log(error))
+// funciones.deleteOnePhoto("Julian", "Ola ke ase")
 
 //**********************************************************Eliminar todas las fotos***************/
 
-// photosModel.deleteMany({nombre_usuario: "Antonio"})
-// .then(data => {
-//     console.log("Eliminado correctamente")
-//     console.log(data)
-// }).catch(error => console.log(error))
+// funciones.deleteAllPhotos("Antonio")
