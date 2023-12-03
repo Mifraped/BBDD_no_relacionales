@@ -66,7 +66,7 @@ const putProfesional = (req, res) => {
 }
 
 const deleteProfesional = (req, res) => {
-    profesionalModel.deleteOne({name: req.body.name, lastName: req.body.lastName})
+    profesionalModel.deleteOne({name: req.query.name, lastName: req.query.lastName})
     .then(result => {
         let respuesta
         if(result.deletedCount > 0){
