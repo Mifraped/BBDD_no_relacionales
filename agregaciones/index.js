@@ -162,7 +162,15 @@ let mark12 = new marksModel({
 
 //NOTA MEDIA ALUMNOS
 
-// marksModel.aggregate([{$group: {"_id": null, "Nota media":{"$avg": "$mark"}}}])
+// marksModel.aggregate([{
+//     $match: {subject_name: "Mongo"}
+// },
+// {
+//     $group: {"_id": null, "Nota media":{"$avg": "$mark"}}
+// },{
+//     $project: {"_id": 0, "Nota media": 1}
+// }
+// ])
 // .then(res => {
 //     console.log(...res)
 //     mongoose.disconnect()
@@ -266,10 +274,7 @@ let mark12 = new marksModel({
 //     $match: {date: {"$gt": new Date("2022, 12, 31")}}
 // },
 // {
-//     $project: {"_id": 0, "Asignatura": "$subject_name", "mark": 1}
-// },
-// {
-//     $group: {"_id": {"Asignatura": "$Asignatura"}, "Nota media": {"$avg": "$mark"}}
+//     $group: {"_id": {"Asignatura": "$subject_name"}, "Nota media": {"$avg": "$mark"}}
 // },
 // {
 //     $project: {"_id": 0, "Asignatura": "$_id.Asignatura", "Nota media": 1}
@@ -285,10 +290,7 @@ let mark12 = new marksModel({
 //     $match: {date: {"$gt": new Date("2022, 12, 31")}}
 // },
 // {
-//     $project: {"_id": 0, "Alumno": {"$concat":["$student_first_name", " ", "$student_last_name"]}, "mark": 1}
-// },
-// {
-//     $group: {"_id": {"Alumno": "$Alumno"}, "Nota media": {"$avg": "$mark"}}
+//     $group: {"_id": {"Alumno": {"$concat":["$student_first_name", " ", "$student_last_name"]}}, "Nota media": {"$avg": "$mark"}}
 // },
 // {
 //     $project: {"_id": 0, "Alumno": "$_id.Alumno", "Nota media": 1}
@@ -300,7 +302,8 @@ let mark12 = new marksModel({
 
 // 4 ---------------------------------------------------
 
-// marksModel.aggregate([{
+marksModel.aggregate([
+//  {
 //     $unwind: "$teachers"
 // },
 // {
@@ -315,7 +318,39 @@ let mark12 = new marksModel({
 // {
 //     $project: {"_id": 0, "Alumno": "$_id.Alumno", "Asignaturas": 1, "Profesor": "$_id.Profesor"}
 // }
-// ]).then(res => {
-//     console.log(res)
-//     mongoose.disconnect()
-// }).catch(err => console.log(err))
+//*********************************************************************************** */
+{
+    $unwind: "$teachers"
+},
+{
+    $match: {"$and": [{"teachers.teacher_first_name": "Maria Jose"}, {"teachers.teacher_last_name": "Requena"}]}
+},
+{
+    $project: {"_id": 0, "Alumno": {"$concat": ["$student_first_name", " ", "$student_last_name"]}, "Asignaturas": "$subject_name", "Profesor": {"$concat": ["$teachers.teacher_first_name", " ", "$teachers.teacher_last_name"]}}
+},
+{
+    $group: {"_id": {"Alumno": "$Alumno", "Profesor": "$Profesor"}, "Asignaturas": {"$sum": 1}}
+},
+{
+    $project: {"_id": 0, "Alumno": "$_id.Alumno", "Asignaturas": 1, "Profesor": "$_id.Profesor"}
+}
+//************************************************************************** */
+// {
+//     $unwind: "$teachers"
+// },
+// {
+//     $match: {"$and": [{"teachers.teacher_first_name": "Maria Jose"}, {"teachers.teacher_last_name": "Requena"}]}
+// },
+// // {
+// //     $project: {"_id": 0, "Alumno": {"$concat": ["$student_first_name", " ", "$student_last_name"]}, "Asignaturas": "$subject_name", "Profesor": {"$concat": ["$teachers.teacher_first_name", " ", "$teachers.teacher_last_name"]}}
+// // },
+// {
+//     $group: {"_id": {"Alumno": {"$concat": ["$student_first_name", " ", "$student_last_name"]}, "Profesor": {"$concat": ["$teachers.teacher_first_name", " ", "$teachers.teacher_last_name"]}}, "subject_name": {"$sum": 1}}
+// },
+// {
+//     $project: {"_id": 0, "Alumno": 1, "Asignaturas": "$subject_name", "Profesor": 1}
+// }
+]).then(res => {
+    console.log(res)
+    mongoose.disconnect()
+}).catch(err => console.log(err))
